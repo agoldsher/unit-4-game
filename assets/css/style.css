@@ -1,0 +1,79 @@
+
+#kronk, #kuzco, #yzma, #pacha{
+    float: left;
+    padding: 0em 1.5em; 
+    margin: 1.0em; 
+
+}
+
+h4{
+    text-align: center;
+    font-size: 1.5em;
+    margin: 0px;
+}
+
+h5{
+    text-align: center;
+}
+
+.clearfix::after{
+    content: "";
+    clear: both;
+    display: table;
+}
+
+#your-character{
+    float: left;
+    padding: 0em 1.5em; 
+    margin: 1.0em; 
+    
+ 
+}
+#your-character h4{
+    text-align: left;
+}
+#your-character h5{
+    text-align: left;
+}
+#enemies{
+    float: left;
+    padding: 0em 1.5em; 
+    margin: 1.2em; 
+}
+#defender{    
+    padding: 0em 1.5em; 
+    margin: 1.2em; }
+#defender h4{
+    text-align: left;
+}
+#defender h5{
+    text-align: left;
+}
+#defender-text{
+    padding: 0em 1.5em; 
+}
+
+
+/* general styling */
+
+h1{
+    margin: 0.5em 1em;
+    font-size: 2em;
+}
+
+h2 {
+    margin: 0.5em 1em;
+    font-size: 1.5em;
+
+}
+
+button{
+    background-color: aqua;
+    margin: 0.5em 2em;
+}
+
+.container-fluid{
+    margin: 0px;
+}
+
+
