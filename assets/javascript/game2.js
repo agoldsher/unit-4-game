@@ -1,3 +1,4 @@
+// setting up objects for each of the characters
 var kuzco = {
     name: "Kuzco",
     image: "<img src='assets/images/Kuzco.jpg' height='100em'/>",
@@ -49,27 +50,32 @@ var kronk = {
     }
 }
 
+// setting up global variables to set the character you will be using and the character that will serve as the defender
 var yourCharacter = "";
-var $yourCharacter = $("#your-character");
-var characterSelected = false;
-var $enemies = $("#enemies");
 var defender = "";
-var $defender = $("#defender")
+// setting up booleans for the selection of characters and the attack button to work properly
+var characterSelected = false;
 var defenderSelected = false;
+// setting up the three areas where the characters should be on the HTML page
+var $enemies = $("#enemies");
+var $defender = $("#defender")
+var $yourCharacter = $("#your-character");
+// setting up an power up for your character
 var attackPowerUp = 1;
 
 
 
 
-// set up the characters
-
-
+// putting the characters on the page
 kuzco.box()
 pacha.box()
 yzma.box()
 kronk.box()
 
-
+// SELECTING YOU CHARACTER
+// when any of the characters are clicked, the character you chose will be selected as your character
+// all others will be moved to the enemies spot
+// this will cause the characterSelected boolean to be true and no other character can be added to your character
 $('#kuzco, #pacha, #yzma, #kronk').on('click', function () {
 
     if (characterSelected === false) {
@@ -95,12 +101,17 @@ $('#kuzco, #pacha, #yzma, #kronk').on('click', function () {
             $enemies.append($("#yzma"));
             $enemies.append($("#kuzco"));
         }
+        // the area that contained the characters originally is cleared
+        // your character will be moved into the appropriate stop
         characterSelected = true;
         $(".all-characters").empty();
         $yourCharacter.html("<h4>" + yourCharacter.name + "</h4>");
         $yourCharacter.append(yourCharacter.image);
         $yourCharacter.append("<h5>" + yourCharacter.health + "</h5>");
 
+        // SELECTING THE DEFENDER
+        // if you have selected a character but not a defender, the defenderSelected boolean will be false
+        // at this point you can click on the characters in the enemies area, you will set your defender and that character will be emptied from the enemy area
     } else if (characterSelected && defenderSelected === false) {
 
         if ($(this).attr("id") === "kuzco") {
@@ -120,39 +131,52 @@ $('#kuzco, #pacha, #yzma, #kronk').on('click', function () {
             $("#kronk").remove();
             $("#defender-text").empty();
         }
+        // since you selected a defender, the defenderSelected boolean is true
+        // and that character will be moved to the defender spot
         defenderSelected = true;
         $defender.append("<h4>" + defender.name + "</h4>");
         $defender.append(defender.image);
         $defender.append("<h5>" + defender.health + "</h5>");
-        // $defender.css("border", "2px solid teal");
+
     }
 });
-
+// ATTACKING THE DEFENDER
+// if you character and the defender are selected, then you can push the attack button
 $('.attack').on('click', function () {
     if (defenderSelected && characterSelected) {
+        // everytime you attack your attack power is being multiplied by an integer which is increasing
+        // both characters asset are pulled from the object and displayed 
         var yourAttack = yourCharacter.attack * attackPowerUp;
         $("#defender-text").empty();
         $("#defender-text").html("You attacked " + defender.name + " for " + yourAttack + " damage. <br/>")
         $("#defender-text").append(defender.name + " attacked you back for " + defender.counterAttack + " damage.")
+        // the health is updated
         defender.health = defender.health - yourAttack;
         yourCharacter.health = yourCharacter.health - defender.counterAttack;
         attackPowerUp++;
+        // I had to pull the number from the character information on the HTML, I couldn't seem to change it though the object =(
+        // the health is updated on the HTML
         $yourCharacter.find("h5").html(yourCharacter.health);
         $defender.find("h5").html(defender.health);
 
+        // WIN OR LOSE SCENARIOS
+        // if the defender health reaches or goes below 0 before you or at the same time as you, the defender spot will be emptied 
+        // and you will be prompted to selected a new defender
         if (defender.health <= 0) {
             $defender.empty();
             $("#defender-text").empty();
             $("#defender-text").html("You beat " + defender.name + "! <br/>");
             $("#defender-text").append("Pick a new defender.");
+            // you can selected a new defender now that this boolean is false, see "selecting the defender" section
             defenderSelected = false;
 
+            // if your health reaches or goes below 0, then it will tell you that you have been 
+            // defeated and show a button to reset
+            // the reset will just reload the page
         } else if (yourCharacter.health <= 0) {
             $("#defender-text").empty();
             $("#defender-text").html("You have been defeated!");
             $(".reset").show();
-            characterSelected = false;
-
         }
 
     }
