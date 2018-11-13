@@ -64,7 +64,7 @@ var $yourCharacter = $("#your-character");
 var attackPowerUp = 1;
 
 
-
+$(".reset").hide();
 
 // putting the characters on the page
 kuzco.box()
@@ -163,12 +163,13 @@ $('.attack').on('click', function () {
         // if the defender health reaches or goes below 0 before you or at the same time as you, the defender spot will be emptied 
         // and you will be prompted to selected a new defender
         if (defender.health <= 0) {
+            defenderSelected = false;
             $defender.empty();
             $("#defender-text").empty();
             $("#defender-text").html("You beat " + defender.name + "! <br/>");
             $("#defender-text").append("Pick a new defender.");
             // you can selected a new defender now that this boolean is false, see "selecting the defender" section
-            defenderSelected = false;
+
 
             // if your health reaches or goes below 0, then it will tell you that you have been 
             // defeated and show a button to reset
@@ -177,6 +178,12 @@ $('.attack').on('click', function () {
             $("#defender-text").empty();
             $("#defender-text").html("You have been defeated!");
             $(".reset").show();
+            // i don't know where this line of done went because it used to be here
+            characterSelected = false;
+
+            $(".reset").on('click', function () {
+                location.reload();
+            });
         }
 
     }
@@ -184,7 +191,4 @@ $('.attack').on('click', function () {
 
 });
 
-$(".reset").hide();
-$(".reset").on('click', function () {
-    location.reload();
-});
+
